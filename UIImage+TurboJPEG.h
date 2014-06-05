@@ -22,6 +22,7 @@
 + (UIImage*)imageUsingTurboJpegWithContentsOfFile:(NSString *)file;
 + (UIImage*)imageUsingTurboJpegWithData:(NSData *)data;
 
++ (NSData *)JPEGRepresentationUsingTurboJpegFromUIImage:(UIImage *)image compressionQuality:(NSUInteger)compressionQuality;
 - (NSData *)JPEGRepresentationUsingTurboJpeg:(NSUInteger)compressionQuality;
 
 @end

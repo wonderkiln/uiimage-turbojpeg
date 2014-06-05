@@ -84,13 +84,13 @@ static void MemoryPlaneReleaseDataCallback (void *info, const void *data, size_t
 static NSUInteger const kBytesPerPixel = 4;
 static NSUInteger const kBitsPerComponent = 8;
 
-- (NSData *)JPEGRepresentationUsingTurboJpeg:(NSUInteger)compressionQuality
++ (NSData *)JPEGRepresentationUsingTurboJpegFromUIImage:(UIImage *)image compressionQuality:(NSUInteger)compressionQuality
 {
     if (compressionQuality > 100) {
         compressionQuality = 100;
     }
     
-    CGImageRef imageRef = [self CGImage];
+    CGImageRef imageRef = [image CGImage];
     size_t imageWidth = CGImageGetWidth(imageRef);
     size_t imageHeight = CGImageGetHeight(imageRef);
     
@@ -124,6 +124,11 @@ static NSUInteger const kBitsPerComponent = 8;
     }
     
     return data;
+}
+
+- (NSData *)JPEGRepresentationUsingTurboJpeg:(NSUInteger)compressionQuality
+{
+    return [UIImage JPEGRepresentationUsingTurboJpegFromUIImage:self compressionQuality:compressionQuality];
 }
 
 @end
