@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-@interface UIImage (TurboJpeg)
+@interface UIImage (TurboJPEG)
 
 /**
  * Create a UIImage from an NSData using Turbo-JPEG library
@@ -18,8 +18,10 @@
  * @return an autoreleased instance of UIImage, if successfull, nil otherwise
  */
 
-+(UIImage*)imageUsingTurboJpegWithContentsOfURL:(NSURL *)url;
-+(UIImage*)imageUsingTurboJpegWithContentsOfFile:(NSString *)file;
-+(UIImage*)imageUsingTurboJpegWithData:(NSData *)data;
++ (UIImage*)imageUsingTurboJpegWithContentsOfURL:(NSURL *)url;
++ (UIImage*)imageUsingTurboJpegWithContentsOfFile:(NSString *)file;
++ (UIImage*)imageUsingTurboJpegWithData:(NSData *)data;
+
+- (NSData *)JPEGRepresentationUsingTurboJpeg:(NSUInteger)compressionQuality;
 
 @end

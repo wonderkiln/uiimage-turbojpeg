@@ -9,7 +9,7 @@
 #import "UIImage+TurboJPEG.h"
 #import "turbojpeg.h"
 
-@implementation UIImage (TurboJpeg)
+@implementation UIImage (TurboJPEG)
 
 +(UIImage*)imageUsingTurboJpegWithContentsOfURL:(NSURL *)url
 {
@@ -79,6 +79,51 @@
 static void MemoryPlaneReleaseDataCallback (void *info, const void *data, size_t size)
 {
     free((void *)data);
+}
+
+static NSUInteger const kBytesPerPixel = 4;
+static NSUInteger const kBitsPerComponent = 8;
+
+- (NSData *)JPEGRepresentationUsingTurboJpeg:(NSUInteger)compressionQuality
+{
+    if (compressionQuality > 100) {
+        compressionQuality = 100;
+    }
+    
+    CGImageRef imageRef = [self CGImage];
+    size_t imageWidth = CGImageGetWidth(imageRef);
+    size_t imageHeight = CGImageGetHeight(imageRef);
+    
+    CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
+    
+    uint8_t *sourceData = calloc(imageHeight * imageWidth * kBytesPerPixel, sizeof(uint8_t));
+    NSUInteger sourceBytesPerRow = kBytesPerPixel * imageWidth;
+    
+    CGContextRef context = CGBitmapContextCreate(sourceData, imageWidth, imageHeight,
+                                                 kBitsPerComponent, sourceBytesPerRow, colorSpace,
+                                                 kCGImageAlphaNoneSkipLast | kCGBitmapByteOrder32Big);
+    CGContextDrawImage(context, CGRectMake(0, 0, imageWidth, imageHeight), imageRef);
+    CGContextRelease(context);
+    
+    unsigned long jpegSize = 0;
+    uint8_t *compressedImage = NULL;
+    
+    tjhandle handle = tjInitCompress();
+    int result = tjCompress2(handle, sourceData, imageWidth, 0, imageHeight,
+                             TJPF_RGBX, &compressedImage, &jpegSize,
+                             TJSAMP_420, compressionQuality, TJFLAG_FASTDCT);
+    
+    NSData *data;
+    if (result == 0) {
+        data = [NSData dataWithBytes:compressedImage length:jpegSize];
+    }
+    
+    tjDestroy(handle);
+    if (compressedImage) {
+        tjFree(compressedImage);
+    }
+    
+    return data;
 }
 
 @end
