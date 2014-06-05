@@ -15,13 +15,4 @@ UIImage *image = [UIImage imageUsingTurboJpegWithData:jpegData];
 =================
 Important credits
 
-The "ready-to-go-already-built-library-for-iOS" is from here:
-https://github.com/dhoerl/PhotoScrollerNetwork
-
-Some code & inspiration from:
-https://github.com/dunkelstern/libturbojpeg-ios/tree/master/TurboAssetLoader
-
-
-Thanks to everyone, and regards.
-
--ryhor
+Based on the code by: https://github.com/ryhor/uiimage-turbojpeg
