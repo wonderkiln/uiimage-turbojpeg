@@ -109,9 +109,9 @@ static NSUInteger const kBitsPerComponent = 8;
     uint8_t *compressedImage = NULL;
     
     tjhandle handle = tjInitCompress();
-    int result = tjCompress2(handle, sourceData, imageWidth, 0, imageHeight,
+    int result = tjCompress2(handle, sourceData, (int)imageWidth, 0, (int)imageHeight,
                              TJPF_BGRX, &compressedImage, &jpegSize,
-                             sampling, compressionQuality, TJFLAG_FASTDCT);
+                             sampling, (int)compressionQuality, TJFLAG_FASTDCT);
     
     NSData *data;
     if (result == 0) {
