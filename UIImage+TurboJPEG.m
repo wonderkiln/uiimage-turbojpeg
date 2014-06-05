@@ -9,13 +9,25 @@
 #import "UIImage+TurboJPEG.h"
 #import "turbojpeg.h"
 
-@implementation UIImage(TurboJpeg)
+@implementation UIImage (TurboJpeg)
 
-+ (UIImage*) imageUsingTurboJpegWithData:(NSData*)data
++(UIImage*)imageUsingTurboJpegWithContentsOfURL:(NSURL *)url
+{
+    NSData *data = [NSData dataWithContentsOfURL:url];
+    return [self imageUsingTurboJpegWithData:data];
+}
+
++(UIImage*)imageUsingTurboJpegWithContentsOfFile:(NSString *)file
+{
+    NSData *data = [NSData dataWithContentsOfFile:file];
+    return [self imageUsingTurboJpegWithData:data];
+}
+
++ (UIImage *)imageUsingTurboJpegWithData:(NSData*)data
 {
     // decompress image (may be bigger than desired size)
     tjhandle handle = tjInitDecompress();
-
+    
     uint8_t *buffer = malloc(data.length);
     [data getBytes:buffer length:data.length];
     
@@ -34,7 +46,7 @@
     
     
     CGSize imageSize = CGSizeMake(width, height);
-
+    
     
     uint8_t *imageBuffer = malloc(imageSize.width * 4 * imageSize.height);
     int success = tjDecompress2(handle, buffer, data.length, imageBuffer, imageSize.width, imageSize.width * 4, imageSize.height, TJPF_BGRA, TJFLAG_FASTDCT);
@@ -63,12 +75,11 @@
     return finalImage;
 }
 
-
 //memory cleanup
-static void MemoryPlaneReleaseDataCallback (void *info, const void *data, size_t size) {
+static void MemoryPlaneReleaseDataCallback (void *info, const void *data, size_t size)
+{
     free((void *)data);
 }
-
 
 @end
 

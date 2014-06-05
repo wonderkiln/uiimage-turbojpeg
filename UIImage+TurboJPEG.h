@@ -18,5 +18,8 @@
  * @return an autoreleased instance of UIImage, if successfull, nil otherwise
  */
 
++(UIImage*)imageUsingTurboJpegWithContentsOfURL:(NSURL *)url;
++(UIImage*)imageUsingTurboJpegWithContentsOfFile:(NSString *)file;
 +(UIImage*)imageUsingTurboJpegWithData:(NSData *)data;
+
 @end
