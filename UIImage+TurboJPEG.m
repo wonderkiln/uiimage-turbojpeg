@@ -101,7 +101,7 @@ static NSUInteger const kBitsPerComponent = 8;
     
     CGContextRef context = CGBitmapContextCreate(sourceData, imageWidth, imageHeight,
                                                  kBitsPerComponent, sourceBytesPerRow, colorSpace,
-                                                 kCGImageAlphaNoneSkipLast | kCGBitmapByteOrder32Big);
+                                                 kCGImageAlphaNoneSkipFirst | kCGBitmapByteOrder32Little);
     CGContextDrawImage(context, CGRectMake(0, 0, imageWidth, imageHeight), imageRef);
     CGContextRelease(context);
     
@@ -110,7 +110,7 @@ static NSUInteger const kBitsPerComponent = 8;
     
     tjhandle handle = tjInitCompress();
     int result = tjCompress2(handle, sourceData, imageWidth, 0, imageHeight,
-                             TJPF_RGBX, &compressedImage, &jpegSize,
+                             TJPF_BGRX, &compressedImage, &jpegSize,
                              sampling, compressionQuality, TJFLAG_FASTDCT);
     
     NSData *data;
