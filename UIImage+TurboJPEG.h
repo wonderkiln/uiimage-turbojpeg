@@ -65,6 +65,15 @@ typedef NS_ENUM(NSUInteger, TurboJPEGSampling)
 + (UIImage*)imageUsingTurboJpegWithContentsOfFile:(NSString *)file;
 + (UIImage*)imageUsingTurboJpegWithData:(NSData *)data;
 
+/**
+ * Create a NSData from an UIImage using Turbo-JPEG library
+ *
+ * @param image the UIImage, desired to be compressed
+ * @param compressionQuality for the compression, between 0 and 100
+ * @param sampling TurboJPEGSampling for the compression
+ *
+ * @return an autoreleased instance of NSData, if successfull, nil otherwise
+ */
 + (NSData *)JPEGRepresentationUsingTurboJpegFromUIImage:(UIImage *)image compressionQuality:(NSUInteger)compressionQuality sampling:(TurboJPEGSampling)sampling;
 - (NSData *)JPEGRepresentationUsingTurboJpeg:(NSUInteger)compressionQuality sampling:(TurboJPEGSampling)sampling;
 
